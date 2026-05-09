@@ -1,0 +1,65 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+}
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: var(--r-lg);
+  padding: 48px 40px;
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.sub {
+  font-size: .95rem;
+  text-align: center;
+  margin-bottom: 32px;
+}
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.switchText {
+  margin-top: 24px;
+  font-size: .9rem;
+  text-align: center;
+}
+.switchLink {
+  color: var(--text);
+  font-weight: 600;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (max-width: 500px) {
+  .card { padding: 36px 24px; }
+}

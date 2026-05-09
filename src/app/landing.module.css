@@ -1,0 +1,291 @@
+.page { position: relative; min-height: 100vh; }
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 72px;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, rgba(13,13,18,0.92), rgba(13,13,18,0.85)), url('/hotel_hero_luxury_1778056392760.png');
+  background-size: cover;
+  background-position: center;
+}
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 0;
+  gap: 0;
+  z-index: 1;
+}
+.heroContent h1 { margin-bottom: 24px; }
+.heroSub {
+  font-size: 1.15rem;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  color: var(--muted);
+}
+.heroCtas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 56px;
+}
+.heroStats {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.hstat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hstat span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.hstat small { font-size: .8rem; color: var(--muted); }
+.hstatDiv { width: 1px; height: 40px; background: var(--glass-b); }
+
+.scrollHint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: .72rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  z-index: 2;
+}
+.scrollLine {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--muted), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: .4; }
+  50% { opacity: 1; }
+}
+
+/* Badge next to hero */
+.heroContent .badge {
+  margin-bottom: 24px;
+  font-size: .82rem;
+}
+
+/* Features */
+.featGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.featCard {
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: var(--r-lg);
+  padding: 36px 28px;
+  transition: border-color .3s, transform .3s var(--trans);
+  display: flex;
+  flex-direction: column;
+}
+.featCard:hover {
+  border-color: rgba(196,30,58,.4);
+  transform: translateY(-6px);
+}
+.featIcon { 
+  font-size: 2rem; 
+  margin-bottom: 20px; 
+  width: 52px;
+  height: 52px;
+  background: var(--grad);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(109,40,217,.2);
+}
+.featCard h3 { color: var(--text); margin-bottom: 10px; }
+
+/* How It Works */
+.howSection { background: var(--bg2); }
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+}
+.stepsGrid::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-b) 20%, var(--glass-b) 80%, transparent);
+}
+.stepCard { text-align: center; padding: 8px; }
+.stepNum {
+  font-family: 'Outfit', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+.stepCard h3 { color: var(--text); margin-bottom: 10px; }
+
+/* CTA */
+.ctaSection { position: relative; }
+.ctaBox {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: var(--r-lg);
+  padding: 72px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.ctaBox h2 { margin-bottom: 8px; }
+
+/* Pricing */
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.pricingCard {
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  border-radius: var(--r-lg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all .3s ease;
+  text-align: left;
+}
+.pricingCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(109,40,217,.4);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+.pricingCardActive {
+  background: rgba(109,40,217,.08);
+  border-color: var(--mid);
+  box-shadow: 0 0 0 1px var(--mid);
+}
+.pricingCardActive::after {
+  content: "Most Popular";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--mid);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.planName {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.planPrice {
+  font-size: 2rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  margin-bottom: 4px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.planPriceSub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.planFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  flex: 1;
+}
+.planFeatures li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+.planFeatures li::before {
+  content: "✓";
+  color: #10b981;
+  font-weight: bold;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--glass-b);
+  padding: 32px 0;
+  background: var(--bg2);
+}
+.footerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footerLinks {
+  display: flex;
+  gap: 24px;
+  font-size: .9rem;
+  color: var(--muted);
+}
+.footerLinks a:hover { color: var(--text); }
+
+@media (max-width: 900px) {
+  .featGrid { grid-template-columns: repeat(2, 1fr); }
+  .stepsGrid { grid-template-columns: repeat(2, 1fr); }
+  .stepsGrid::before { display: none; }
+  .pricingGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .featGrid { grid-template-columns: 1fr; }
+  .stepsGrid { grid-template-columns: 1fr; }
+  .pricingGrid { grid-template-columns: 1fr; }
+  .heroStats { gap: 16px; }
+  .ctaBox { padding: 48px 24px; }
+  .footerInner { flex-direction: column; text-align: center; }
+}
