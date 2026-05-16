@@ -322,15 +322,21 @@
 
 /* Reception */
 .reception {
-  position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 32px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   font-size: .85rem;
   color: var(--muted);
-  z-index: 40;
-  white-space: nowrap;
+  padding-bottom: 24px;
+}
+
+/* Responsive tweaks for very small phones */
+@media (max-width: 380px) {
+  .servicesGrid { grid-template-columns: 1fr; gap: 12px; }
+  .svcCard { padding: 16px; flex-direction: row; align-items: center; }
+  .svcIconWrapper { width: 40px; height: 40px; flex-shrink: 0; }
+  .headerHero { min-height: 220px; }
+  .headerTitle { font-size: 1.6rem; }
 }

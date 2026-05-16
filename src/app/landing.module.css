@@ -276,16 +276,24 @@
 .footerLinks a:hover { color: var(--text); }
 
 @media (max-width: 900px) {
-  .featGrid { grid-template-columns: repeat(2, 1fr); }
-  .stepsGrid { grid-template-columns: repeat(2, 1fr); }
+  .featGrid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .stepsGrid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .stepsGrid::before { display: none; }
-  .pricingGrid { grid-template-columns: repeat(2, 1fr); }
+  .pricingGrid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
+
 @media (max-width: 600px) {
-  .featGrid { grid-template-columns: 1fr; }
-  .stepsGrid { grid-template-columns: 1fr; }
-  .pricingGrid { grid-template-columns: 1fr; }
-  .heroStats { gap: 16px; }
-  .ctaBox { padding: 48px 24px; }
-  .footerInner { flex-direction: column; text-align: center; }
+  .heroContent { padding: 40px 0; }
+  .heroCtas { flex-direction: column; width: 100%; gap: 12px; margin-bottom: 40px; }
+  .heroCtas .btn { width: 100%; justify-content: center; }
+  .heroStats { flex-direction: column; gap: 24px; width: 100%; }
+  .hstatDiv { width: 80px; height: 1px; }
+
+  .featGrid { grid-template-columns: 1fr; gap: 16px; }
+  .stepsGrid { grid-template-columns: 1fr; gap: 24px; }
+  .pricingGrid { grid-template-columns: 1fr; gap: 16px; }
+  
+  .ctaBox { padding: 40px 20px; gap: 12px; }
+  .footerInner { flex-direction: column; text-align: center; gap: 16px; }
+  .footerLinks { flex-direction: column; gap: 12px; }
 }

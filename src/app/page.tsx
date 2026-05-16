@@ -88,12 +88,14 @@ export default function LandingPage() {
             <li><a href="#how" className="nav-link">How It Works</a></li>
             <li><a href="#pricing" className="nav-link">Pricing</a></li>
           </ul>
-          <Link href={user ? '/dashboard' : '/login'} className="btn btn-ghost btn-sm">
-            {user ? 'Dashboard' : 'Login'}
-          </Link>
-          <Link href={user ? (hasHotel ? '/dashboard' : '/onboarding') : '/signup'} className="btn btn-primary btn-sm">
-            {user ? (hasHotel ? 'Open Portal →' : 'Finish Setup →') : 'Get Started →'}
-          </Link>
+          <div className="nav-cta">
+            <Link href={user ? '/dashboard' : '/login'} className="btn btn-ghost btn-sm">
+              {user ? 'Dashboard' : 'Login'}
+            </Link>
+            <Link href={user ? (hasHotel ? '/dashboard' : '/onboarding') : '/signup'} className="btn btn-primary btn-sm">
+              {user ? (hasHotel ? 'Open Portal →' : 'Finish Setup →') : 'Get Started →'}
+            </Link>
+          </div>
         </div>
       </nav>
 

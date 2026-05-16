@@ -78,6 +78,11 @@ export default function DashboardPage() {
   const [newStaff, setNewStaff] = useState({ name: '', email: '', role: 'staff' });
   const [createdStaffCreds, setCreatedStaffCreds] = useState<{email: string, pass: string} | null>(null);
 
+  // Upgrade state
+  const [upgradeUtr, setUpgradeUtr] = useState('');
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
+  const [upgradeError, setUpgradeError] = useState('');
+
   const showToast = (msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3000);
@@ -195,6 +200,30 @@ export default function DashboardPage() {
     setHotel({ ...hotel, services: servicesDraft });
     setEditingServices(false);
     showToast('Services updated!');
+  };
+
+  const handleUpgrade = async () => {
+    if (!upgradeUtr || upgradeUtr.length < 8) {
+      setUpgradeError('Please enter a valid Transaction ID / UTR.');
+      return;
+    }
+    if (!hotel) return;
+
+    setUpgradeLoading(true);
+    setUpgradeError('');
+    try {
+      await updateDoc(doc(db, 'hotels', hotel.id), { 
+        plan: 'premium',
+        paymentUtr: upgradeUtr
+      });
+      setHotel({ ...hotel, plan: 'premium' });
+      showToast('Successfully upgraded to Premium! 🎉');
+      setUpgradeUtr('');
+    } catch (err: any) {
+      setUpgradeError('Failed to upgrade. Please try again.');
+    } finally {
+      setUpgradeLoading(false);
+    }
   };
 
   const updateTelegramId = async (id: string) => {
@@ -508,6 +537,8 @@ export default function DashboardPage() {
         }
         return orderList;
       });
+    }, (error) => {
+      console.warn("Orders listener error:", error);
     });
     return unsub;
   }, [hotel?.id]);
@@ -518,6 +549,8 @@ export default function DashboardPage() {
     const q = query(collection(db, 'users'), where('hotelId', '==', hotel.id));
     const unsub = onSnapshot(q, (snap) => {
       setStaffMembers(snap.docs.map(d => ({ id: d.id, ...d.data() } as any)));
+    }, (error) => {
+      console.warn("Staff listener error:", error);
     });
     return unsub;
   }, [hotel?.id, userRole]);
@@ -843,6 +876,44 @@ export default function DashboardPage() {
 
         {toast && <div className="toast toast-success">{toast}</div>}
 
+        {/* ── Premium Locked Screen ── */}
+        {['analytics', 'rooms', 'team'].includes(activeTab) && hotel?.plan === 'standard' && (
+          <div className={styles.tabContent}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '40px 20px', maxWidth: '500px', margin: '40px auto', background: 'var(--glass)', border: '1px solid var(--glass-b)', borderRadius: 'var(--r-lg)' }}>
+              <div style={{ background: 'rgba(109,40,217,.1)', color: 'var(--mid)', fontSize: '3rem', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>👑</div>
+              <h2 style={{ fontFamily: 'Outfit', fontSize: '1.8rem', marginBottom: '16px', color: 'var(--text)' }}>Unlock Premium Features</h2>
+              <p style={{ color: 'var(--muted)', marginBottom: '32px', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                You need the Premium plan to access Analytics, Room Management, and Team Collaboration. Upgrade now for unlimited access at ₹7,999/year.
+              </p>
+              
+              <div style={{ background: '#fff', padding: '16px', borderRadius: '16px', marginBottom: '16px' }}>
+                <QRCode value={`upi://pay?pa=9652172595@axl&pn=Hotel%20SaaS&am=7999&cu=INR`} size={160} />
+              </div>
+              <h4 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text)', marginBottom: '4px' }}>₹7,999 <span style={{fontSize: '0.9rem', color: 'var(--muted)', fontWeight: 400}}>per year</span></h4>
+              <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '24px' }}>UPI ID: <b>9652172595@axl</b></p>
+              
+              <div style={{ width: '100%', maxWidth: '300px', textAlign: 'left' }}>
+                <label className="form-label">Transaction ID (UTR) *</label>
+                <input 
+                  className="form-input" 
+                  placeholder="Enter 12-digit UTR number" 
+                  value={upgradeUtr}
+                  onChange={e => setUpgradeUtr(e.target.value)}
+                />
+              </div>
+              {upgradeError && <div className="toast toast-error" style={{ position: 'static', marginTop: '16px', width: '100%', maxWidth: '300px', borderRadius: 'var(--r)' }}>{upgradeError}</div>}
+              <button 
+                className="btn btn-primary" 
+                style={{ width: '100%', maxWidth: '300px', marginTop: '16px', height: '48px', justifyContent: 'center' }}
+                onClick={handleUpgrade}
+                disabled={upgradeLoading}
+              >
+                {upgradeLoading ? <span className="spinner" /> : '✅ Verify & Upgrade'}
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ── Overview ── */}
         {activeTab === 'overview' && (
           <div className={styles.tabContent}>
@@ -878,7 +949,7 @@ export default function DashboardPage() {
         )}
 
         {/* ── Analytics ── */}
-        {activeTab === 'analytics' && (
+        {activeTab === 'analytics' && hotel?.plan !== 'standard' && (
           <div className={styles.tabContent}>
             <div className={styles.upgradeSection} style={{ marginTop: 0 }}>
               <div className={styles.upgradeCard}>
@@ -923,7 +994,7 @@ export default function DashboardPage() {
         )}
 
         {/* ── Room Management ── */}
-        {activeTab === 'rooms' && hotel && (
+        {activeTab === 'rooms' && hotel && hotel?.plan !== 'standard' && (
           <div className={styles.tabContent}>
             <div className={styles.roomsGrid}>
               {(hotel.rooms || []).length === 0 ? (
@@ -1235,7 +1306,7 @@ export default function DashboardPage() {
         )}
 
         {/* ── Team Management ── */}
-        {activeTab === 'team' && userRole?.toLowerCase() === 'owner' && (
+        {activeTab === 'team' && userRole?.toLowerCase() === 'owner' && hotel?.plan !== 'standard' && (
           <div className={styles.tabContent}>
             <div className={styles.settingsCard}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
